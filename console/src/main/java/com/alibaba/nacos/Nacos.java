@@ -32,6 +32,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Nacos {
     
     public static void main(String[] args) {
+        System.setProperty("nacos.standalone", "true");
+        // System.setProperty("embeddedStorage", "true");
         SpringApplication.run(Nacos.class, args);
     }
 }
