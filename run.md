@@ -21,3 +21,9 @@ gRPC的启动类`com.alibaba.nacos.client.config.impl.ClientWorker.ClientWorker`
 # 配置MySQL
 
 `docker run --name nacos_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=nacos -e MYSQL_USER=nacos -e MYSQL_PASSWORD=nacos -e MYSQL_DATABASE=nacos -d mysql:8.0.26`
+
+`mysql-schema.sql`执行sql
+
+
+
+`com.alibaba.nacos.config.server.controller.ConfigController`这里会接收请求把所有的配置保存下来
