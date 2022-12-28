@@ -123,7 +123,7 @@ public class ServiceStorage {
         }
         LOGGER.info("get all instance from index with service:{}", service);
         for (Instance instance : result) {
-            LOGGER.info("get result:{}", result);
+            LOGGER.info("get result:{}", instance);
         }
         // cache clusters of this service
         serviceClusterIndex.put(service, clusters);
