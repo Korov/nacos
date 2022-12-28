@@ -27,11 +27,12 @@ import com.alibaba.nacos.naming.core.v2.index.ServiceStorage;
 import com.alibaba.nacos.naming.core.v2.metadata.NamingMetadataManager;
 import com.alibaba.nacos.naming.core.v2.metadata.ServiceMetadata;
 import com.alibaba.nacos.naming.core.v2.pojo.Service;
+import com.alibaba.nacos.naming.misc.Loggers;
 import com.alibaba.nacos.naming.utils.ServiceUtil;
 import com.alibaba.nacos.plugin.auth.constant.ActionTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.logging.Logger;
 
 /**
  * Nacos query instances request handler.
@@ -40,7 +41,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ServiceQueryRequestHandler extends RequestHandler<ServiceQueryRequest, QueryServiceResponse> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceQueryRequestHandler.class);
 
     private final ServiceStorage serviceStorage;
 
@@ -60,12 +60,12 @@ public class ServiceQueryRequestHandler extends RequestHandler<ServiceQueryReque
         Service service = Service.newService(namespaceId, groupName, serviceName);
         String cluster = null == request.getCluster() ? "" : request.getCluster();
         boolean healthyOnly = request.isHealthyOnly();
-        LOGGER.info("handle request namespaceId:{}, groupName:{}, serviceName:{}, cluster:{}, healthyOnly:{}, service:{}", namespaceId, groupName, serviceName, cluster, healthyOnly, service);
+        Loggers.SRV_LOG.info("handle request namespaceId:{}, groupName:{}, serviceName:{}, cluster:{}, healthyOnly:{}, service:{}", namespaceId, groupName, serviceName, cluster, healthyOnly, service);
         ServiceInfo result = serviceStorage.getData(service);
         ServiceMetadata serviceMetadata = metadataManager.getServiceMetadata(service).orElse(null);
         result = ServiceUtil.selectInstancesWithHealthyProtection(result, serviceMetadata, cluster, healthyOnly, true,
                 meta.getClientIp());
-        LOGGER.info("handle request with result:{}", result);
+        Loggers.SRV_LOG.info("handle request with result:{}", result);
         return QueryServiceResponse.buildSuccessResponse(result);
     }
 }

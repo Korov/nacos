@@ -18,7 +18,8 @@
 <included>
     
     <springProperty scope="context" name="logPath" source="nacos.logs.path" defaultValue="${user.home}/nacos/logs"/>
-    <property name="LOG_HOME" value="${logPath}"/>
+    <!--<property name="LOG_HOME" value="${logPath}"/>-->
+    <property name="LOG_HOME" value="logs"/>
     
     <appender name="nacos-address"
         class="ch.qos.logback.core.rolling.RollingFileAppender">

@@ -27,6 +27,7 @@ import com.alibaba.nacos.naming.core.v2.metadata.NamingMetadataManager;
 import com.alibaba.nacos.naming.core.v2.pojo.BatchInstancePublishInfo;
 import com.alibaba.nacos.naming.core.v2.pojo.InstancePublishInfo;
 import com.alibaba.nacos.naming.core.v2.pojo.Service;
+import com.alibaba.nacos.naming.misc.Loggers;
 import com.alibaba.nacos.naming.misc.SwitchDomain;
 import com.alibaba.nacos.naming.utils.InstanceUtil;
 import org.slf4j.Logger;
@@ -44,7 +45,6 @@ import java.util.concurrent.ConcurrentMap;
  */
 @Component
 public class ServiceStorage {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceStorage.class);
 
     private final ClientServiceIndexesManager serviceIndexesManager;
 
@@ -88,7 +88,7 @@ public class ServiceStorage {
     }
 
     public void removeData(Service service) {
-        LOGGER.info("remove data:{}", service.toString());
+        Loggers.SRV_LOG.info("remove data:{}", service.toString());
         serviceDataIndexes.remove(service);
         serviceClusterIndex.remove(service);
     }
@@ -121,9 +121,9 @@ public class ServiceStorage {
                 }
             }
         }
-        LOGGER.info("get all instance from index with service:{}", service);
+        Loggers.SRV_LOG.info("get all instance from index with service:{}", service);
         for (Instance instance : result) {
-            LOGGER.info("get result:{}", instance);
+            Loggers.SRV_LOG.info("get result:{}", instance);
         }
         // cache clusters of this service
         serviceClusterIndex.put(service, clusters);

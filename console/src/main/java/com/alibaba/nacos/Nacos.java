@@ -33,6 +33,7 @@ public class Nacos {
     
     public static void main(String[] args) {
         System.setProperty("nacos.standalone", "true");
+        System.setProperty("JM.LOG.PATH", ".");
         // System.setProperty("embeddedStorage", "true");
         SpringApplication.run(Nacos.class, args);
     }
