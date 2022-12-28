@@ -16,6 +16,8 @@
 
 package com.alibaba.nacos.api.naming.remote.request;
 
+import java.util.StringJoiner;
+
 /**
  * Nacos naming query request.
  *

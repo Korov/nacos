@@ -29,6 +29,8 @@ import com.alibaba.nacos.naming.core.v2.metadata.ServiceMetadata;
 import com.alibaba.nacos.naming.core.v2.pojo.Service;
 import com.alibaba.nacos.naming.utils.ServiceUtil;
 import com.alibaba.nacos.plugin.auth.constant.ActionTypes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,16 +40,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ServiceQueryRequestHandler extends RequestHandler<ServiceQueryRequest, QueryServiceResponse> {
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceQueryRequestHandler.class);
+
     private final ServiceStorage serviceStorage;
-    
+
     private final NamingMetadataManager metadataManager;
-    
+
     public ServiceQueryRequestHandler(ServiceStorage serviceStorage, NamingMetadataManager metadataManager) {
         this.serviceStorage = serviceStorage;
         this.metadataManager = metadataManager;
     }
-    
+
     @Override
     @Secured(action = ActionTypes.READ)
     public QueryServiceResponse handle(ServiceQueryRequest request, RequestMeta meta) throws NacosException {
@@ -57,10 +60,12 @@ public class ServiceQueryRequestHandler extends RequestHandler<ServiceQueryReque
         Service service = Service.newService(namespaceId, groupName, serviceName);
         String cluster = null == request.getCluster() ? "" : request.getCluster();
         boolean healthyOnly = request.isHealthyOnly();
+        LOGGER.info("handle request namespaceId:{}, groupName:{}, serviceName:{}, cluster:{}, healthyOnly:{}, service:{}", namespaceId, groupName, serviceName, cluster, healthyOnly, service);
         ServiceInfo result = serviceStorage.getData(service);
         ServiceMetadata serviceMetadata = metadataManager.getServiceMetadata(service).orElse(null);
         result = ServiceUtil.selectInstancesWithHealthyProtection(result, serviceMetadata, cluster, healthyOnly, true,
                 meta.getClientIp());
+        LOGGER.info("handle request with result:{}", result);
         return QueryServiceResponse.buildSuccessResponse(result);
     }
 }
