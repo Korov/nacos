@@ -28,8 +28,12 @@ import com.alibaba.nacos.naming.core.v2.metadata.NamingMetadataManager;
 import com.alibaba.nacos.naming.core.v2.metadata.ServiceMetadata;
 import com.alibaba.nacos.naming.core.v2.pojo.Service;
 import com.alibaba.nacos.naming.misc.Loggers;
+import com.alibaba.nacos.naming.utils.JSONUtil;
 import com.alibaba.nacos.naming.utils.ServiceUtil;
 import com.alibaba.nacos.plugin.auth.constant.ActionTypes;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
@@ -65,7 +69,7 @@ public class ServiceQueryRequestHandler extends RequestHandler<ServiceQueryReque
         ServiceMetadata serviceMetadata = metadataManager.getServiceMetadata(service).orElse(null);
         result = ServiceUtil.selectInstancesWithHealthyProtection(result, serviceMetadata, cluster, healthyOnly, true,
                 meta.getClientIp());
-        Loggers.SRV_LOG.info("handle request with result:{}", result);
+        Loggers.SRV_LOG.info("handle request with result:{}", JSONUtil.objectToJson(result, JSONUtil.DEFAULT_MAPPER));
         return QueryServiceResponse.buildSuccessResponse(result);
     }
 }
