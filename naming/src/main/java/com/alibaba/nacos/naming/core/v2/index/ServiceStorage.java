@@ -73,15 +73,18 @@ public class ServiceStorage {
     }
 
     public ServiceInfo getData(Service service) {
+        Loggers.SRV_LOG.info("getData:{}", service);
         return serviceDataIndexes.containsKey(service) ? serviceDataIndexes.get(service) : getPushData(service);
     }
 
     public ServiceInfo getPushData(Service service) {
         ServiceInfo result = emptyServiceInfo(service);
         if (!ServiceManager.getInstance().containSingleton(service)) {
+            Loggers.SRV_LOG.info("not contain service:{}", service);
             return result;
         }
         Service singleton = ServiceManager.getInstance().getSingleton(service);
+        Loggers.SRV_LOG.info("get singleton:{}", singleton);
         result.setHosts(getAllInstancesFromIndex(singleton));
         serviceDataIndexes.put(singleton, result);
         return result;
