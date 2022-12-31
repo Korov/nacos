@@ -299,11 +299,11 @@ public class NamingGrpcClientProxy extends AbstractNamingClientProxy {
     private <T extends Response> T requestToServer(AbstractNamingRequest request, Class<T> responseClass)
             throws NacosException {
         try {
-            NAMING_LOGGER.info("[REGISTER-SERVICE] request:{}, timeout:{}", JsonUtil.objectToJson(request), requestTimeout);
             request.putAllHeader(
                     getSecurityHeaders(request.getNamespace(), request.getGroupName(), request.getServiceName()));
             Response response =
                     requestTimeout < 0 ? rpcClient.request(request) : rpcClient.request(request, requestTimeout);
+            NAMING_LOGGER.info("[REGISTER-SERVICE] request:{}, response:{}", JsonUtil.objectToJson(request), JsonUtil.objectToJson(response));
             if (ResponseCode.SUCCESS.getCode() != response.getResultCode()) {
                 throw new NacosException(response.getErrorCode(), response.getMessage());
             }
