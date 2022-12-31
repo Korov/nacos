@@ -36,3 +36,4 @@ Build Instructions for NACOS
 
 	#build nacos
     $ mvn -Prelease-nacos -Dmaven.test.skip=true clean install -U
+    $ mvn -Prelease-nacos -D"maven.test.skip=true" clean install -U
