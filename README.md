@@ -163,7 +163,7 @@ gRPC的启动类`com.alibaba.nacos.client.config.impl.ClientWorker.ClientWorker`
 
 `docker run --name nacos_mysql -p 3307:3306 -e MYSQL_ROOT_PASSWORD=nacos -e MYSQL_USER=nacos -e MYSQL_PASSWORD=nacos -e MYSQL_DATABASE=nacos -d mysql:8.0.26`
 
-`mysql-schema.sql`执行sql
+`distribution/conf/mysql-schema.sql`执行sql
 
 
 
