@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.naming.utils;
+package com.alibaba.nacos.common.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -57,6 +57,10 @@ public class JsonUtil {
         SNAKE_CASE_NO_NULL_MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         SNAKE_CASE_NO_NULL_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         SNAKE_CASE_NO_NULL_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    public static String objectToJson(Object object) {
+        return objectToJson(object, DEFAULT_MAPPER);
     }
 
     /**

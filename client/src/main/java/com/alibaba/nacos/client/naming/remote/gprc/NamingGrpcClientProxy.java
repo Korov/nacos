@@ -42,6 +42,7 @@ import com.alibaba.nacos.client.naming.cache.ServiceInfoHolder;
 import com.alibaba.nacos.client.naming.event.ServerListChangedEvent;
 import com.alibaba.nacos.client.naming.remote.AbstractNamingClientProxy;
 import com.alibaba.nacos.client.naming.remote.gprc.redo.NamingGrpcRedoService;
+import com.alibaba.nacos.common.utils.JsonUtil;
 import com.alibaba.nacos.client.security.SecurityProxy;
 import com.alibaba.nacos.common.notify.Event;
 import com.alibaba.nacos.common.notify.NotifyCenter;
@@ -298,6 +299,7 @@ public class NamingGrpcClientProxy extends AbstractNamingClientProxy {
     private <T extends Response> T requestToServer(AbstractNamingRequest request, Class<T> responseClass)
             throws NacosException {
         try {
+            NAMING_LOGGER.info("[REGISTER-SERVICE] request:{}, timeout:{}", JsonUtil.objectToJson(request), requestTimeout);
             request.putAllHeader(
                     getSecurityHeaders(request.getNamespace(), request.getGroupName(), request.getServiceName()));
             Response response =
